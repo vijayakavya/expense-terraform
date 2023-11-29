@@ -31,8 +31,11 @@ resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.main.id
 
   tags = {
-    Name = "${var.env}-igw}"
+    Name = "${var.env}-igw"
   }
 }
 
+resource "aws_eip" "ngw" {
+  domain = "vpc"
+}
 
