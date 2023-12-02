@@ -8,6 +8,7 @@ default_vpc_id = "vpc-00928cd12aec736da"
 default_vpc_cidr = "172.31.0.0/16"
 default_route_table_id = "rtb-03b84a2e6e52a6885"
 account_no = "097371406967"
+bastion_node_cidr = [ "172.31.23.92/32"]
 
 
 
