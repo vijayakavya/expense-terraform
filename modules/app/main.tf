@@ -80,6 +80,10 @@ resource "aws_iam_role" "role" {
   }
 }
 
+resource "aws_iam_instance_profile" "instance_profile" {
+  name = "${var.env}-${var.component}-role"
+  role = aws_iam_role.role.name
+}
 
 
 resource "aws_launch_template" "template" {
@@ -89,7 +93,7 @@ resource "aws_launch_template" "template" {
   vpc_security_group_ids = [aws_security_group.security_group.id]
 
   iam_instance_profile {
-    name = aws_iam_role.role.name
+    name = aws_iam_instance_profile.instance_profile.name
   }
 
   user_data = base64encode(templatefile("${path.module}/userdata.sh", {
