@@ -65,7 +65,6 @@ resource "aws_iam_role" "role" {
             "ssm:GetParametersHistory",
             "ssm:GetParametersByPath",
             "ssm:GetParameters",
-            "ssm:GetParameters",
             "ssm:GetParameter"
 
           ],
