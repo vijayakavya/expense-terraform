@@ -21,6 +21,7 @@ module "public-lb" {
   internal          = false
   subnets           = module.vpc.public_subnets
   vpc_id            = module.vpc.vpc_id
+
 }
 
 module "private-lb" {
@@ -31,6 +32,8 @@ module "private-lb" {
   internal          = true
   subnets           = module.vpc.private_subnets
   vpc_id            = module.vpc.vpc_id
+  dns_name          = "backend-${var.env}.kdevopsb26.online"
+  zone_id           = "Z03665552INK97CUQ6WQD"
 }
 
 
