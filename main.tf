@@ -21,6 +21,10 @@ module "public-lb" {
   internal          = false
   subnets           = module.vpc.public_subnets
   vpc_id            = module.vpc.vpc_id
+  dns_name          = "${var.env}.kdevopsb26.online"
+  zone_id           = "Z03665552INK97CUQ6WQD"
+  tg_arn            = module.frontend.tg_arn
+
 
 }
 
@@ -34,6 +38,7 @@ module "private-lb" {
   vpc_id            = module.vpc.vpc_id
   dns_name          = "backend-${var.env}.kdevopsb26.online"
   zone_id           = "Z03665552INK97CUQ6WQD"
+  tg_arn            = module.backend.tg_arn
 }
 
 
@@ -47,9 +52,14 @@ module "frontend" {
   vpc_id = module.vpc.vpc_id
   subnets = module.vpc.private_subnets
   bastion_node_cidr = var.bastion_node_cidr
+  desired_capacity = var.desired_capacity
+  max_size  = var.max_size
+  min_size  = var.min_size
+
 }
 
 module "backend" {
+  depends_on = [module.mysql]
   source = "./modules/app"
   app_port = 80
   component = "backend"
@@ -59,6 +69,9 @@ module "backend" {
   vpc_id = module.vpc.vpc_id
   subnets = module.vpc.private_subnets
   bastion_node_cidr = var.bastion_node_cidr
+  desired_capacity = var.desired_capacity
+  max_size  = var.max_size
+  min_size  = var.min_size
 }
 
 module "mysql" {
@@ -70,4 +83,5 @@ module "mysql" {
   subnets   = module.vpc.private_subnets
   vpc_cidr  = var.vpc_cidr
   vpc_id    = module.vpc.vpc_id
+  instance_class = var.instance_class
 }
